@@ -1,5 +1,6 @@
 package tests;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -7,21 +8,31 @@ import static org.testng.Assert.assertTrue;
 
 public class LoginTest extends BaseTest {
 
-    @Test
-    public void checkLogin() throws InterruptedException {
+    @Test(description = "Проверка корректной авторизации", priority = 1)
+    public void checkLogin() {
         loginPage.open();
         loginPage.login("standard_user", "secret_sauce");
-        Thread.sleep(5000);
 
         assertEquals(productsPage.getTitle(), "Products", "Заголовок страницы не соответствует");
     }
 
-    @Test
-    public void checkIncorrectLogin() {
+    @DataProvider(name = "incorrectLoginData")
+    public Object[][] loginData() {
+        return new Object[][]{
+                {"", "secret_sauce", "Epic sadface: Username is required"},
+                {"standard_user", "", "Epic sadface: Password is required"},
+                {"Standard_user", "secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
+                {"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."}
+        };
+    }
+
+    @Test(dataProvider = "incorrectLoginData", dependsOnMethods = "checkLogin", priority = 2,
+            enabled = true, invocationCount = 2)
+    public void checkIncorrectLogin(String user, String password, String errorMessage) {
         loginPage.open();
-        loginPage.login("", "secret_sauce");
+        loginPage.login(user, password);
 
         assertTrue(loginPage.isErrorDisplayed());
-        assertEquals(loginPage.getErrorText(), "Epic sadface: Username is required");
+        assertEquals(loginPage.getErrorText(), errorMessage);
     }
 }

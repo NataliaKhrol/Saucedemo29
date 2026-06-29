@@ -13,24 +13,24 @@ public class BaseTest {
     LoginPage loginPage;
     ProductsPage productsPage;
 
+    @AfterMethod(alwaysRun = true)
+    public void close() {
+        driver.manage().deleteAllCookies();
+        driver.quit();
+    }
+
     @BeforeMethod
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
 
         options.addArguments("guest");
-        //  options.addArguments("headless");
+        options.addArguments("headless");
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
         // driver.manage().window().setSize(new Dimension(1920, 1080));
 
         loginPage = new LoginPage(driver);
         productsPage = new ProductsPage(driver);
-    }
-
-    @AfterMethod
-    public void close() {
-        driver.manage().deleteAllCookies();
-        driver.quit();
     }
 }

@@ -2,20 +2,20 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class LoginPage {
-    private final By loginInput = By.xpath("//*[@placeholder='Username']");
+public class LoginPage extends BasePage {
+    private final By loginInput = By.xpath(DATA_TEST_PATTERN.formatted("username"));
     private final By passwordInput = By.xpath("//input[@placeholder='Password']");
     private final By submitButton = By.cssSelector("#login-button");
-    private final By error = By.xpath("//h3[@data-test='error']");
-    WebDriver driver;
+    private final By error = By.xpath(DATA_TEST_PATTERN.formatted("error"));
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public void open() {
-        driver.get("https://www.saucedemo.com/");
+        driver.get(BASE_URL);
     }
 
     public void login(String login, String password) {
@@ -29,6 +29,11 @@ public class LoginPage {
     }
 
     public String getErrorText() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(error));
         return driver.findElement(error).getText();
+    }
+
+    public String checkButtonWidth() {
+        return driver.findElement(submitButton).getCssValue("width");
     }
 }

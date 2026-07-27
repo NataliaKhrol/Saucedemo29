@@ -23,22 +23,20 @@ jobs:
       - name: Build and run tests
         run: mvn clean test
 
-      - name: Check allure results
+      - name: Install Allure
         if: always()
         run: |
-            ls -la
-            ls -la allure-results || true
-            ls -la target/allure-results || true
+          sudo apt-get update
+          sudo apt-get install allure -y
 
       - name: Generate Allure report
         if: always()
-        uses: simple-elf/allure-report-action@master
-        with:
-          allure_results: target/allure-results
+        run: |
+          allure generate target/allure-results -o allure-report --clean
 
       - name: Upload Allure report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-                name: allure-report
-                path: allure-report
+          name: allure-report
+          path: allure-report

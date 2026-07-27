@@ -1,44 +1,25 @@
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-
 public class FirstTest {
-//КРАТНО 3, ВОЗВРАЩАТЬ 'T'
-//КРАТНО 5, ВОЗВРАЩАТЬ 'M'
-//КРАТНО 3 И 5, ВОЗВРАЩАТЬ 'TIM'
-//ВОЗВРАЩАТЬ 'FAIL'
-
-    public String trialCode(int number) {
-        if (number % 3 == 0 && number % 5 == 0) {
-            return "TIM";
-        } else if (number % 5 == 0) {
-            return "M";
-        } else if (number % 3 == 0) {
-            return "T";
-        } else return "FAIL";
+    @AfterMethod
+    public void bla() {
+        System.out.println("x");
     }
 
     @Test
-    public void timTest() {
-        String actualResult = trialCode(9);
-        assertEquals(actualResult, "T");
+    public void test1() {
+        System.out.println("c");
     }
 
     @Test
-    public void timTest2() {
-        String actualResult = trialCode(25);
-        assertEquals(actualResult, "M");
+    public void test2() {
+        System.out.println("v");
     }
 
-    @Test
-    public void timTest3() {
-        String actualResult = trialCode(15);
-        assertEquals(actualResult, "TIM");
-    }
-
-    @Test
-    public void timTest4() {
-        String actualResult = trialCode(2);
-        assertEquals(actualResult, "FAIL");
+    @BeforeMethod
+    public void bla2() {
+        System.out.println("z");
     }
 }

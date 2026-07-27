@@ -32,7 +32,16 @@ public class ProductsPage extends BasePage {
         driver.findElements(By.xpath("//*[text()='Add to cart']")).get(goodsIndex).click();
     }
 
-    public String checkCounterValue() {
+    public String checkCounterColor() {
         return driver.findElement(counter).getCssValue("background-color");
     }
+
+    public int checkCounterValue() {
+        return Integer.parseInt(driver.findElement(counter).getText());
+    }
+
+    public void switchToBasket() {
+        driver.findElement(counter).click();
+    }
 }
+

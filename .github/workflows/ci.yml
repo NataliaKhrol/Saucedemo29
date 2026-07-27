@@ -23,14 +23,22 @@ jobs:
       - name: Build and run tests
         run: mvn clean test
 
+      - name: Check allure results
+        if: always()
+        run: |
+            ls -la
+            ls -la allure-results || true
+            ls -la target/allure-results || true
+
       - name: Generate Allure report
         if: always()
-        run: mvn allure:report
-
-      - name: Upload Allure results
-        uses: actions/upload-artifact@v4
-        if: always()
+        uses: simple-elf/allure-report-action@master
         with:
-                    name: allure-report
-                    path: target/site/allure-maven-plugin
+          allure_results: target/allure-results
 
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+                name: allure-report
+                path: allure-report

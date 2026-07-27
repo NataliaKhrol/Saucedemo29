@@ -22,7 +22,7 @@ public class ProductsTest extends BaseTest {
         loginPage.open();
         loginPage.login(withAdminPermission());
 
-        assertEquals(productsPage.getTitle(), PRODUCTS, "Заголовок страницы не соответствует");
+        assertEquals(productsPage.getTitle(), PRODUCTS.getDisplayName(), "Заголовок страницы не соответствует");
         productsPage.addGoodsToCart(4);
 
         for (String goods : goodsList) {

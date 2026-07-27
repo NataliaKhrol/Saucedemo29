@@ -23,7 +23,7 @@ public class BasketTest extends BaseTest {
         loginPage.open();
         loginPage.login(withAdminPermission());
 
-        assertEquals(productsPage.getTitle(), PRODUCTS, "Заголовок страницы не соответствует");
+        assertEquals(productsPage.getTitle(), PRODUCTS.getDisplayName(), "Заголовок страницы не соответствует");
 
         for (String goods : goodsList) {
             productsPage.addGoodsToCart(goods);
